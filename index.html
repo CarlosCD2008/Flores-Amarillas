@@ -3,24 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flores Amarillas</title>
+<title>Para Vanee</title>
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:black;height:100vh;overflow:hidden;font-family:'Courier Prime',monospace}
 #stars{position:fixed;inset:0;z-index:1}
 .star{position:absolute;background:white;border-radius:50%}
-#inicio{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;transition:1s}
+
+/* PANTALLA 1 - IGUAL A TU FOTO */
+#inicio{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;transition:1s}
 #inicio.oculto{opacity:0;pointer-events:none}
 .contenido{text-align:center;z-index:10}
-h1{color:#f7ff00;font-size:clamp(1.4rem,4vw,2.2rem);letter-spacing:3px;line-height:1.4;text-shadow:0 0 8px #f7ff00,0 0 20px #f7ff00;font-weight:700}
-h2{margin-top:35px;color:#f7ff00;font-size:1.1rem;text-shadow:0 0 8px #f7ff00}
-p{margin-top:35px;color:white;font-size:1rem;letter-spacing:2px;text-shadow:0 0 8px white}
+.contenido h1{color:#f7ff00;font-size:clamp(1.4rem,4vw,2.2rem);letter-spacing:3px;line-height:1.4;text-shadow:0 0 8px #f7ff00,0 0 20px #f7ff00;font-weight:700}
+.contenido h2{margin-top:35px;color:#f7ff00;font-size:1.1rem;text-shadow:0 0 8px #f7ff00}
+.contenido p{margin-top:35px;color:white;font-size:1rem;letter-spacing:2px;text-shadow:0 0 8px white}
 button{margin-top:35px;padding:12px 28px;background:black;border:2px solid #8a2be2;color:#8a2be2;font-family:inherit;letter-spacing:3px;cursor:pointer;box-shadow:0 0 10px #ff00ff,0 0 20px #8a2be2}
-button:hover{background:#8a2be2;color:black}
+
+/* PANTALLA 2 - FLOR ANIMADA */
 #regalo{position:fixed;inset:0;z-index:5;display:none;background:black;align-items:center;justify-content:center;flex-direction:column}
 #regalo.activa{display:flex}
-#frase{position:relative;z-index:10;font-family:'Great Vibes',cursive;font-size:clamp(2rem,6vw,3.2rem);color:#ff9ec5;text-shadow:0 0 15px #ff4d8d;text-align:center;min-height:80px;margin-bottom:10px}
+#frase{position:relative;z-index:10;text-align:center;min-height:110px;margin-bottom:5px;width:90%}
+.linea1{font-family:'Great Vibes',cursive;font-size:clamp(2.1rem,6.5vw,3.4rem);color:#ff9ec5;text-shadow:0 0 15px #ff4d8d,0 0 35px #ff9ec5;line-height:1.1}
+.linea2{font-family:'Courier Prime',monospace;font-size:clamp(1rem,3vw,1.3rem);color:#ffeaa7;letter-spacing:4px;margin-top:12px;text-shadow:0 0 10px gold}
 canvas#flor{width:min(90vw,520px);height:min(90vw,520px);z-index:10}
 </style>
 </head>
@@ -37,12 +42,14 @@ canvas#flor{width:min(90vw,520px);height:min(90vw,520px);z-index:10}
 </div>
 
 <div id="regalo">
-<div id="frase"></div>
+<div id="frase">
+<div class="linea1">Para mi niña preciosa Vanee 💗🌻</div>
+<div class="linea2">I love</div>
+</div>
 <canvas id="flor" width="600" height="600"></canvas>
 </div>
 
 <script>
-// FONDO ESTRELLADO
 const bg=document.getElementById('stars');
 for(let i=0;i<300;i++){
 let s=document.createElement('div');s.className='star';
@@ -63,12 +70,11 @@ iniciarFlor();
 
 function iniciarFlor(){
 const canvas=document.getElementById('flor'),ctx=canvas.getContext('2d');
-const W=600,H=600,cx=300,cy=320;
+const W=600,H=600,cx=300,cy=310;
 const numPetals=18;
 let petalIndex=0;
-
-// Tallo animado
 let talloH=0;
+
 function drawTallo(){
 ctx.save();
 ctx.strokeStyle='#00c853';
@@ -76,37 +82,35 @@ ctx.lineWidth=14;
 ctx.lineCap='round';
 ctx.shadowBlur=10;ctx.shadowColor='#00e676';
 ctx.beginPath();
-ctx.moveTo(cx,H-20);
-ctx.lineTo(cx,H-20-talloH);
+ctx.moveTo(cx,H-15);
+ctx.lineTo(cx,H-15-talloH);
 ctx.stroke();
 ctx.restore();
 }
 
-function drawPetal(angle, layers){
+function drawPetal(angle,layers){
 ctx.save();
 ctx.translate(cx,cy);
 ctx.rotate(angle);
-// forma de petalo como tu foto - puntiagudo
 for(let l=layers;l>0;l--){
 let scale=l/layers;
-let alpha=0.15+scale*0.7;
+let alpha=0.15+scale*0.65;
 ctx.beginPath();
 ctx.moveTo(0,0);
-// curva petalo
-ctx.bezierCurveTo(25*scale, -40*scale, 70*scale, -110*scale, 0, -210*scale);
-ctx.bezierCurveTo(-70*scale, -110*scale, -25*scale, -40*scale, 0,0);
+ctx.bezierCurveTo(25*scale,-40*scale,70*scale,-110*scale,0,-210*scale);
+ctx.bezierCurveTo(-70*scale,-110*scale,-25*scale,-40*scale,0,0);
 ctx.closePath();
-// color mas bonito - degradado amarillo a dorado
 if(l===layers){
 let grad=ctx.createRadialGradient(0,-100*scale,10,0,-100*scale,120);
-grad.addColorStop(0,'#fff176');
+grad.addColorStop(0,'#fff9c4');
 grad.addColorStop(0.3,'#ffeb3b');
+grad.addColorStop(0.7,'#fdd835');
 grad.addColorStop(1,'#f9a825');
 ctx.fillStyle=grad;
 ctx.fill();
 }
 ctx.strokeStyle=`rgba(255,235,59,${alpha})`;
-ctx.lineWidth=1.1;
+ctx.lineWidth=1.2;
 ctx.stroke();
 }
 ctx.restore();
@@ -114,57 +118,52 @@ ctx.restore();
 
 function drawCentro(){
 ctx.save();
-let grad=ctx.createRadialGradient(cx,cy,5,cx,cy,55);
+let grad=ctx.createRadialGradient(cx,cy,5,cx,cy,52);
 grad.addColorStop(0,'#ff8a65');
 grad.addColorStop(0.4,'#d84315');
-grad.addColorStop(1,'#8d1a1a');
+grad.addColorStop(1,'#4e0e0e');
 ctx.fillStyle=grad;
 ctx.shadowBlur=20;ctx.shadowColor='#ff5722';
 ctx.beginPath();ctx.arc(cx,cy,48,0,Math.PI*2);ctx.fill();
 ctx.restore();
 }
 
-function animate(){
+let lastTime=0;
+function animate(now){
+if(now-lastTime<30){requestAnimationFrame(animate);return;}
+lastTime=now;
 ctx.clearRect(0,0,W,H);
-if(talloH<180){
-talloH+=3;
+if(talloH<170){talloH+=4;drawTallo();requestAnimationFrame(animate);return;}
 drawTallo();
-requestAnimationFrame(animate);
-return;
-}
-drawTallo();
-// dibuja petalos ya completados
 for(let i=0;i<petalIndex;i++){
 let ang=(i/numPetals)*Math.PI*2 - Math.PI/2;
 drawPetal(ang,12);
 }
-// anima petalo actual creciendo
 if(petalIndex<numPetals){
 let ang=(petalIndex/numPetals)*Math.PI*2 - Math.PI/2;
-let prog= (Date.now()%400)/400; // crecimiento dentro del petalo
-// para hacerlo paso a paso usamos capas
+let prog=(Date.now()%350)/350;
 let layers=Math.floor(prog*12)+1;
 drawPetal(ang,layers);
-if(prog>0.95) petalIndex++;
-} else {
-drawCentro();
-// brillitos finales
-if(Math.random()>0.7){
-ctx.fillStyle='rgba(255,235,59,0.8)';
-ctx.beginPath();
-ctx.arc(cx+(Math.random()-0.5)*250,cy+(Math.random()-0.5)*250,Math.random()*2,0,6.28);
-ctx.fill();
-}
-}
-if(petalIndex<=numPetals){
+if(prog>0.92) petalIndex++;
 requestAnimationFrame(animate);
 } else {
-// loop final con brillo
-setTimeout(()=>{ drawTallo(); for(let i=0;i<numPetals;i++){let ang=(i/numPetals)*Math.PI*2 - Math.PI/2; drawPetal(ang,12);} drawCentro(); requestAnimationFrame(animate);},100)
+drawCentro();
+for(let i=0;i<numPetals;i++){
+let ang=(i/numPetals)*Math.PI*2 - Math.PI/2;
+drawPetal(ang,12);
+}
+drawCentro();
+if(Math.random()>0.6){
+ctx.fillStyle='rgba(255,235,59,0.9)';
+ctx.beginPath();
+ctx.arc(cx+(Math.random()-0.5)*300,cy+(Math.random()-0.5)*300,Math.random()*2.2,0,6.28);
+ctx.fill();
+}
+requestAnimationFrame(animate);
 }
 }
-animate();
-<div id="frase">
-<div class="linea1">Para mi niña preciosa Vanee 💗🌻</div>
-<div class="linea2">I love you</div>
-</div>
+animate(0);
+}
+</script>
+</body>
+</html>
